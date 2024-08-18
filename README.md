@@ -1,4 +1,4 @@
-# Project Description:
+CLimate Monitoring Dashboard
 A dashboard designed to present historic information on various climate factors as well as a predictive tool to determine future temperature changes, and sea level rise.
 Project for Digital Asignments in the course "Computer Networks (BCSE308L)"
 
