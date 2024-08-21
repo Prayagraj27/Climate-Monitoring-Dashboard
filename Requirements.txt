@@ -1,0 +1,14 @@
+-Python
+-sqlite3
+
+Libraries:
+cs50
+flask
+flask_session
+werkzeug
+pytz
+requests
+
+installation:
+
+pip install cs50 flask flask_session werkzeug pytz requests
