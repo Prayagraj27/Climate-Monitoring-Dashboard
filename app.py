@@ -4,6 +4,7 @@ from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
+import requests
 
 from helpers import apology, login_required
 
@@ -17,6 +18,21 @@ Session(app)
 
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///ud.db")
+
+# Obtain weather info
+url = 'https://api.aqi.in/api/v1/getMonitorsByCity'
+headers = {
+    'Accept': 'application/json, text/javascript, */*; q=0.01',
+    'Authorization': 'eyJpdiI6ImJYXC9kaU5jakN0V0I1RlV0bU5CRklnPT0iLCJ2YWx1ZSI6Ik9jTWwzQ01XMFhBK2daZ3VBM3dwblE9PSIsIm1hYyI6ImIzZjE4ZGUxMmYyM2ZkMTA5NDY0YjM5YjE3YTMzNDdmYjJkNDU1OWIzMmMxNjg1YzQ1YmM4NWUwYWZiYTU0NTMifQ==',
+    'Content-Type': 'application/json',
+    'Cityname': 'Chennai'
+}
+
+# Make the GET request
+response = requests.get(url, headers=headers)
+
+# Store the response in a string
+weather_data = response.text
 
 @app.after_request
 def after_request(response):
