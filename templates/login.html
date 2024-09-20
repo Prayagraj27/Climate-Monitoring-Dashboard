@@ -1,17 +1,102 @@
-{% extends "layout.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %}
-    Log In
-{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/loginstyles.css">
+    <title>Sign-in-MyWebpage</title>
+</head>
 
-{% block main %}
-    <form action="/login" method="post">
-        <div class="mb-3">
-            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text">
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form action="/register" method="post">
+                <h1>
+                    Create Account
+                </h1>
+                <div class="social-icons">
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-google"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+                </div>
+                <span>
+                    or use your email for registration
+                </span>
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text">
+                <input class="form-control mx-auto w-auto" name="password" placeholder="Password" type="password">
+                <input class="form-control mx-auto w-auto" name="confirmation" placeholder="Confirm password" type="password">
+                <button>
+                    Sign Up
+                </button>
+
+            </form>
         </div>
-        <div class="mb-3">
-            <input class="form-control mx-auto w-auto" name="password" placeholder="Password" type="password">
+        <div class="form-container sign-in">
+            <form action="/login" method="post">
+                <h1>
+                    Sign In
+                </h1>
+                <div class="social-icons">
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-google"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+                </div>
+                <span>
+                    or use your credentials
+                </span>
+
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text">
+                <input class="form-control mx-auto w-auto" name="password" placeholder="Password" type="password">
+                <a href="#">Forgot Your Password?</a>
+                <button class="btn btn-primary" type="submit">
+                    Sign In
+                </button>
+            </form>
         </div>
-        <button class="btn btn-primary" type="submit">Log In</button>
-    </form>
-{% endblock %}
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>
+                        Welcome Back!
+                    </h1>
+                    <p>
+                        Enter your personal details
+                    </p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>
+                        Welcome!
+                    </h1>
+                    <p>
+                        Register with your personal details
+                    </p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/login.js"></script>
+</body>
+
+</html>

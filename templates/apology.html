@@ -1,11 +1,12 @@
-{% extends "layout.html" %}
-
-{% block title %}
-    Apology
-{% endblock %}
-
-{% block main %}
-    <!-- https://memegen.link/ -->
-    <!-- https://knowyourmeme.com/memes/grumpy-cat -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home-MyWebpage</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+</head>
+<body>
     <img alt="{{ top }}" class="border img-fluid" src="https://api.memegen.link/images/custom/{{ top | urlencode }}/{{ bottom | urlencode }}.jpg?background=https://i.imgur.com/CsCgN7Ll.png&width=400" title="{{ top }}">
-{% endblock %}
+</body>
+</html>
