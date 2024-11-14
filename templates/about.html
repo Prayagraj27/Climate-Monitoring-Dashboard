@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/static/dashboard.css">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+        <title> About </title>
+    </head>
+    <body>
+        <nav>
+            <label class="logo">Weather Predictor</label>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('reminder') }}">Reminder</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+            </ul>
+        </nav>  
+        <main> 
+            <div class="container">
+                <div class="main-header">
+                    <h1> Weather </h1>
+                </div>
+                <div class="background">
+                    <img src="/static/assets/weather-home-background.jpg" alt="" class="desktop-background">
+                </div>
+                <div class="about"> 
+                    
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

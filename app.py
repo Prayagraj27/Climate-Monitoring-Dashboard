@@ -1,10 +1,10 @@
 import os
-from datetime import datetime
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, url_for, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-import requests
+from predictions import generate_predictions
+from datetime import datetime, timedelta
 
 from helpers import apology, login_required
 
@@ -19,37 +19,57 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///ud.db")
 
-# Obtain weather info
-url = 'https://api.aqi.in/api/v1/getMonitorsByCity'
-headers = {
-    'Accept': 'application/json, text/javascript, */*; q=0.01',
-    'Authorization': 'eyJpdiI6ImJYXC9kaU5jakN0V0I1RlV0bU5CRklnPT0iLCJ2YWx1ZSI6Ik9jTWwzQ01XMFhBK2daZ3VBM3dwblE9PSIsIm1hYyI6ImIzZjE4ZGUxMmYyM2ZkMTA5NDY0YjM5YjE3YTMzNDdmYjJkNDU1OWIzMmMxNjg1YzQ1YmM4NWUwYWZiYTU0NTMifQ==',
-    'Content-Type': 'application/json',
-    'Cityname': 'Chennai'
-}
-
-# Make the GET request
-response = requests.get(url, headers=headers)
-
-# Store the response in a string
-weather_data = response.text
-
-@app.after_request
-def after_request(response):
-    """Ensure responses aren't cached"""
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    response.headers["Expires"] = 0
-    response.headers["Pragma"] = "no-cache"
-    return response
-
-
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 @login_required
-def index():
-    """Show portfolio of stocks"""
-    userinfo = db.execute("SELECT * FROM users WHERE id = ?",session["user_id"])
-    userinfo = userinfo[0]
+def home():
+    if request.method == "POST":
+        city = request.form.get("search")
+        # Pass the city name as a query parameter to /Prediction
+        return redirect(url_for("get_weather", city=city))
     return render_template("index.html")
+
+@app.route("/Prediction", methods=["GET", "POST"])
+@login_required
+def get_weather():
+    # Retrieve city from the query parameters
+    city = request.args.get("city", "Your City Name")  
+    current_date = datetime.now().strftime("%Y-%m-%d")  
+
+    # Generate predictions
+    weather_data = generate_predictions()
+    start_date = datetime.strptime("2022-10-21", "%Y-%m-%d")
+    # Update each entry with incremented date
+    for index, day in enumerate(weather_data):
+        day["date"] = (start_date + timedelta(days=index)).strftime("%Y-%m-%d")
+    
+    return render_template("city.html", city_name=city, current_date=current_date, weather_data=weather_data)
+
+@app.route("/about")
+@login_required
+def about():
+    return render_template("about.html")
+
+@app.route("/reminder", methods=["GET", "POST"])
+@login_required
+def reminder():
+    if request.method == "POST":
+        email = request.form.get("Email")
+        contact_number = request.form.get("cno")
+        
+        # Check if the user is already subscribed
+        user_subscription = db.execute("SELECT is_subscribed FROM users WHERE id = ?", (session["user_id"],))
+        
+        if user_subscription and user_subscription[0]["is_subscribed"] == 1:
+            # If the user is already subscribed, show message
+            return render_template("reminder.html", message="Already on reminder list.")
+        else:
+            # If the user is not subscribed, update their subscription details
+            db.execute("UPDATE users SET email = ?, contact_number = ?, is_subscribed = 1 WHERE id = ?",
+                       (email, contact_number, session["user_id"]))
+            return render_template("reminder.html", message="Successfully added to reminder list.")
+    
+    return render_template("reminder.html")
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

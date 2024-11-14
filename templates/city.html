@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast for {{ city_name }}</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            text-align: center;
+            padding: 2rem 0;
+            background-color: #4a90e2;
+            color: #fff;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        .forecast {
+            max-width: 800px;
+            margin: 2rem auto;
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        th {
+            background-color: #4a90e2;
+            color: #fff;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <label class="logo">Weather Predictor</label>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('reminder') }}">Reminder</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+        </ul>
+    </nav>  
+    <header>
+        <h1>Weather Forecast for {{ city_name }}</h1>
+    </header>
+    <section class="forecast">
+        <h2>7-Day Forecast</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Max Temp (°C)</th>
+                    <th>Min Temp (°C)</th>
+                    <th>Avg Temp Prediction (°C)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for day in weather_data %}
+                <tr>
+                    <td>{{ day['date'] }}</td>
+                    <td>{{ day['tmax']|round(3) }}°C</td>
+                    <td>{{ day['tmin']|round(3) }}°C</td>
+                    <td>{{ day['tavg_prediction']|round(3) }}°C</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</body>
+</html>
